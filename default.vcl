@@ -113,6 +113,11 @@ sub vcl_fetch {
     return(hit_for_pass);
     }
 
+    # Strip cookies before these filetypes are inserted into the cache
+    if (req.url ~ "\.(png|gif|jpg|swf|css|js)$") {
+        unset beresp.http.set-cookie;
+    }
+
     return(deliver);
 
 }
